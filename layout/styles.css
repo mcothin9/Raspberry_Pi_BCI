@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+.panel {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+    background-color: darkgray;
+}
+
+.console {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    background-color: gray;
+}
+
+button {
+    background-color: whitesmoke;
+}
+
+button:hover {
+    background-color: cornflowerblue;
+}
