@@ -1,23 +1,11 @@
-const express = require('express')
-const { spawn } = require('child_process')
-const app = express()
-const port = 8000
+const script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.6.3.min.js';
+document.getElementsByTagName('head')[0].appendChild(script);
 
-app.get('/', (req, res) => {
-    let dataToSend;
-    const python = spawn('python', ['./algorithm/model.py']);
-
-    python.stdout.on('data', function (data) {
-        console.log('Pipe data from Python');
-        dataToSend = data.toString();
-        console.log(dataToSend);
-    });
-
-    python.on('close', (code) => {
-        console.log('Chile process close all stdio with code ${code}');
-    })
-});
-
-app.listen(port, () => {
-    console.log('Listen to ${port}...');
+$.ajax({
+    type: "POST",
+    url: "./algorithm/model.py",
+    // data: { param: text}
+}).done(function() {
+    console.log('callback done')
 });
