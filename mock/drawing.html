@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEG Data Visualization</title>
+    <style>
+        /* Add any custom styles here */
+    </style>
+</head>
+<body>
+<canvas id="eeg-canvas" width="800" height="600"></canvas>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const canvas = document.getElementById('eeg-canvas');
+    const ctx = canvas.getContext('2d');
+    const startButton = document.getElementById('start-button');
+
+    startButton.addEventListener('click', () => {
+        socket.emit('start-stream');
+    })
+
+    function drawEEGData(eegData) {
+        // Add code to draw the EEG data on the canvas
+    }
+
+    socket.on('eeg-data', (data) => {
+        const eegData = JSON.parse(data);
+        drawEEGData(eegData);
+    });
+</script>
+</body>
+</html>
