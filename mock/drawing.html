@@ -9,26 +9,45 @@
     </style>
 </head>
 <body>
-<canvas id="eeg-canvas" width="800" height="600"></canvas>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-    const canvas = document.getElementById('eeg-canvas');
-    const ctx = canvas.getContext('2d');
-    const startButton = document.getElementById('start-button');
+    <h1>EEG Wave Plotting</h1>
+<!--    <div id="waveform"></div>-->
+    <canvas id="eeg-canvas" width="800" height="600"></canvas>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const canvas = document.getElementById('eeg-canvas');
+        const startButton = document.getElementById('start-button');
 
-    startButton.addEventListener('click', () => {
-        socket.emit('start-stream');
-    })
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        const channels = 4;
+        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00'];
 
-    function drawEEGData(eegData) {
-        // Add code to draw the EEG data on the canvas
-    }
+        // Initialize the plot
+        ctx.fillStyle = '#f2f2f2';
+        ctx.fillRect(0, 0, width, height);
 
-    socket.on('eeg-data', (data) => {
-        const eegData = JSON.parse(data);
-        drawEEGData(eegData);
-    });
-</script>
+        function drawEEGData(eegData) {
+            for (let i=0; i< channels; i++) {
+                const y = (eegData[i] / 1000000) * height / 2 + height / 2;
+                const color = colors[i % colors.length];
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+            }
+        }
+
+        startButton.addEventListener('click', () => {
+            socket.emit('start-stream');
+
+            socket.on('eeg-data', (data) => {
+                const eegData = JSON.parse(data);
+                drawEEGData(eegData);
+            });
+        });
+
+
+    </script>
 </body>
 </html>

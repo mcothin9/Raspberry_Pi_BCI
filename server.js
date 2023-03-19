@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT || 8080;
 
+/** Cyton from OpenBCI to track EEG data
+ *
+ */
+/*
 const { spawn } = require("child_process");
 
 const Cyton = require()
@@ -30,4 +35,16 @@ app.get("/result", (req, res) => {
 
 app.listen(8080, () => {
     console.log('Server listening on port 8080');
+});
+
+ */
+
+app.use(express.static('public'));
+
+app.get('/message', (req, res) => {
+    res.send('Raspberry Pi BCI is accessed');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
